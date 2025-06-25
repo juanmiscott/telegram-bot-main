@@ -1,0 +1,8 @@
+import './components/faqs-component.js'
+import './components/hero-component.js'
+import './components/features-titles-component.js'
+import './components/cards-component.js'
+import './components/subscription-form-component.js'
+import './components/font-loader.js'
+import './components/page-component.js'
+import './components/not-found-component.js'
