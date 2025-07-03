@@ -1,5 +1,5 @@
 import { store } from '../redux/store.js'
-import { refreshTable } from '../redux/crud-slice.js'
+import { refreshTable, showFormElement } from '../redux/crud-slice.js'
 
 class DeleteModal extends HTMLElement {
   constructor () {
@@ -67,7 +67,7 @@ class DeleteModal extends HTMLElement {
       }
 
       .modal {
-        background: white;
+        background:  rgb(75, 55, 105);
         border-radius: 8px;
         padding: 24px;
         max-width: 400px;
@@ -79,12 +79,12 @@ class DeleteModal extends HTMLElement {
       .title {
         font-size: 1.2rem;
         font-weight: 600;
-        color: #333;
+        color:  rgb(215, 200, 238);
         margin-bottom: 16px;
       }
 
       .message {
-        color: #666;
+        color:  rgb(215, 200, 238);
         line-height: 1.4;
         margin-bottom: 24px;
       }
@@ -103,12 +103,12 @@ class DeleteModal extends HTMLElement {
       }
 
       .cancel-button {
-        background: rgb(201, 106, 106);
-        color: rgb(3, 3, 3);
+        background: rgb(223, 214, 214);
+        color: rgb(41, 15, 15);
       }
 
       .cancel-button:hover {
-        background: rgb(223, 214, 214);
+        background: rgb(192, 185, 185) ;
       }
 
       .confirm-button {
@@ -117,7 +117,7 @@ class DeleteModal extends HTMLElement {
       }
 
       .confirm-button:hover {
-        background: rgb(27, 17, 17);
+        background:  rgb(153, 153, 153);
       }
     </style>
 
@@ -166,6 +166,10 @@ class DeleteModal extends HTMLElement {
         }))
 
         store.dispatch(refreshTable(this.tableEndpoint))
+        store.dispatch(showFormElement({
+          endpoint: this.tableEndpoint,
+          data: null
+        }))
 
         this.shadow.querySelector('.overlay').classList.remove('active')
       } catch (error) {
