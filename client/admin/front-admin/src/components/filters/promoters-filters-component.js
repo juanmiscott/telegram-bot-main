@@ -1,11 +1,11 @@
 import { store } from '../../redux/store.js'
 import { setFilterQuery } from '../../redux/crud-slice.js'
 
-class UserFilter extends HTMLElement {
+class PromoterFilter extends HTMLElement {
   constructor () {
     super()
     this.shadow = this.attachShadow({ mode: 'open' })
-    this.endpoint = '/api/admin/users'
+    this.endpoint = '/api/admin/promoters'
     this.tableEndpoint = ''
     document.addEventListener('showFilterModal', this.showFilterModal.bind(this))
   }
@@ -153,6 +153,7 @@ class UserFilter extends HTMLElement {
 
       .form-element-input input::placeholder {
         color:rgb(156, 163, 175);
+        
       }
 
       .filter-buttons {
@@ -197,14 +198,7 @@ class UserFilter extends HTMLElement {
                 <input type="text" placeholder="" name="name">
               </div>
             </div>
-            <div class="form-element">
-              <div class="form-title">
-                <span>Email</span>
-              </div>
-              <div class="form-element-input">
-                <input type="email" placeholder="" name="email">
-              </div>
-            </div>
+            
           </form>
         </div>
         <div class="filter-buttons">
@@ -268,4 +262,4 @@ class UserFilter extends HTMLElement {
     })
   }
 }
-customElements.define('users-filter-modal-component', UserFilter)
+customElements.define('promoters-filters-component', PromoterFilter)

@@ -3,7 +3,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('bots', {
+    await queryInterface.createTable('promoters', {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -15,17 +15,10 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      description: {
-        type: Sequelize.TEXT,
-        allowNull: false,
-      },
-      platform: {
+      email: {
         type: Sequelize.STRING,
         allowNull: false,
-      },
-      token: {
-        type: Sequelize.STRING,
-        allowNull: false,
+        unique: true
       },
       createdAt: {
         type: Sequelize.DATE,
@@ -42,6 +35,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('bots')
+    await queryInterface.dropTable('promoters')
   }
 }

@@ -1,11 +1,11 @@
-// Se puede sustituir 'Bot' por 'sequelizeModel' y así es más genérico pero no tan bonito para la lectura
+// Se puede sustituir 'Promoter' por 'sequelizeModel' y así es más genérico pero no tan bonito para la lectura
 const sequelizeDb = require('../../models/sequelize')
-const Bot = sequelizeDb.Bot
+const Promoter = sequelizeDb.Promoter
 const Op = sequelizeDb.Sequelize.Op
 
 exports.create = async (req, res, next) => {
   try {
-    const data = await Bot.create(req.body)
+    const data = await Promoter.create(req.body)
     res.status(200).send(data)
   } catch (err) {
     if (err.name === 'SequelizeValidationError') {
@@ -32,9 +32,9 @@ exports.findAll = async (req, res, next) => {
       ? { [Op.and]: [whereStatement] }
       : {}
 
-    const result = await Bot.findAndCountAll({
+    const result = await Promoter.findAndCountAll({
       where: condition,
-      attributes: ['id', 'name', 'description', 'platform', 'token', 'createdAt', 'updatedAt'],
+      attributes: ['id', 'name', 'email', 'createdAt', 'updatedAt', 'deletedAt'],
       limit, // Es lo mismo que escribir limit: limit
       offset,
       order: [['createdAt', 'DESC']]
@@ -56,7 +56,7 @@ exports.findAll = async (req, res, next) => {
 exports.findOne = async (req, res, next) => {
   try {
     const id = req.params.id
-    const data = await Bot.findByPk(id)
+    const data = await Promoter.findByPk(id)
 
     if (!data) {
       const err = new Error()
@@ -74,7 +74,7 @@ exports.findOne = async (req, res, next) => {
 exports.update = async (req, res, next) => {
   try {
     const id = req.params.id
-    const [numberRowsAffected] = await Bot.update(req.body, { where: { id } })
+    const [numberRowsAffected] = await Promoter.update(req.body, { where: { id } })
 
     if (numberRowsAffected !== 1) {
       const err = new Error()
@@ -98,7 +98,7 @@ exports.update = async (req, res, next) => {
 exports.delete = async (req, res, next) => {
   try {
     const id = req.params.id
-    const numberRowsAffected = await Bot.destroy({ where: { id } })
+    const numberRowsAffected = await Promoter.destroy({ where: { id } })
 
     if (numberRowsAffected !== 1) {
       const err = new Error()

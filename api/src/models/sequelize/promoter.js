@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-  const Model = sequelize.define('Bot',
+  const Model = sequelize.define('Promoter',
     { // definicion de los campos del modelo
       id: {
         type: DataTypes.INTEGER,
@@ -20,39 +20,20 @@ module.exports = function (sequelize, DataTypes) {
           }
         }
       },
-      description: {
-        type: DataTypes.TEXT,
-        allowNull: false,
-        validate: {
-          notNull: {
-            msg: 'Por favor, rellena el campo "Descripción".'
-          },
-          notEmpty: {
-            msg: 'Por favor, rellena el campo "Descripción".'
-          }
-        }
-      },
-      platform: {
+      email: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique: true,
         validate: {
+          isEmail: {
+            args: true, // viene por defecto, no hace falta ponerlo
+            msg: 'Debe ser um e-mail válido'
+          },
           notNull: {
-            msg: 'Por favor, rellena el campo "Plataforma".'
+            msg: 'Por favor, rellena el campo "Email".'
           },
           notEmpty: {
-            msg: 'Por favor, rellena el campo "Plataforma".'
-          }
-        }
-      },
-      token: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          notNull: {
-            msg: 'Por favor, rellena el campo "Token".'
-          },
-          notEmpty: {
-            msg: 'Por favor, rellena el campo "Token".'
+            msg: 'Por favor, rellena el campo "Email".'
           }
         }
       },
@@ -74,7 +55,7 @@ module.exports = function (sequelize, DataTypes) {
       }
     }, { // opciones del modelo
       sequelize,
-      tableName: 'bots',
+      tableName: 'promoters',
       timestamps: true,
       paranoid: true, // no borres datos
       indexes: [
