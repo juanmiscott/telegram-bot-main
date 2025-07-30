@@ -1,8 +1,7 @@
 // Se puede sustituir 'EventCategory
 // ' por 'sequelizeModel' y así es más genérico pero no tan bonito para la lectura
 const sequelizeDb = require('../../models/sequelize')
-const EventCategory =
- sequelizeDb.EventCategory
+const EventCategory = sequelizeDb.EventCategory
 
 const Op = sequelizeDb.Sequelize.Op
 

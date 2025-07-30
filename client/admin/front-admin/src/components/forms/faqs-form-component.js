@@ -2,11 +2,11 @@ import isEqual from 'lodash-es/isEqual'
 import { store } from '../../redux/store.js'
 import { refreshTable } from '../../redux/crud-slice.js'
 
-class EventCategoryForm extends HTMLElement {
+class FaqForm extends HTMLElement {
   constructor () {
     super()
     this.shadow = this.attachShadow({ mode: 'open' })
-    this.endpoint = '/api/admin/event-categories'
+    this.endpoint = '/api/admin/faqs'
     this.unsubscribe = null
     this.formElementData = null
   }
@@ -91,6 +91,7 @@ class EventCategoryForm extends HTMLElement {
         height: 30px;
         cursor: pointer;
         margin-right: 0px;
+        
       }
 
       .tab button{
@@ -160,6 +161,7 @@ class EventCategoryForm extends HTMLElement {
         border: none;
         background: hsl(229, 66%, 80%);
         color: white;
+        height:2rem;
       }
 
       .form-element-input .error{
@@ -175,6 +177,7 @@ class EventCategoryForm extends HTMLElement {
         font-size: 1rem;
         margin-top: 0.5rem;
       }
+      
     </style>
 
     <section class="form">
@@ -210,6 +213,7 @@ class EventCategoryForm extends HTMLElement {
         <form>
           <div class="tab-content active" data-tab="general">
             <input type="hidden" name="id">
+
             <div class="form-element">
               <div class="form-title">
                 <span>Nombre</span>
@@ -221,7 +225,16 @@ class EventCategoryForm extends HTMLElement {
 
             <div class="form-element">
               <div class="form-title">
-                <span>Fecha</span>
+                <span>Descripcion</span>
+              </div>
+              <div class="form-element-input">
+                <input type="email" placeholder="" name="email">
+              </div>
+            </div>
+
+            <div class="form-element">
+              <div class="form-title">
+                <span>Plataforma</span>
               </div>
               <div class="form-element-input">
                 <input type="text" placeholder="" name="name">
@@ -229,13 +242,15 @@ class EventCategoryForm extends HTMLElement {
             </div>
 
             <div class="form-element">
-              <div class="form-title">
-                <span>Ubicacion</span>
-              </div>
-              <div class="form-element-input">
-                <input type="text" placeholder="" name="name">
-              </div>
+            <div class="form-title">
+              <span>Token</span>
             </div>
+            <div class="form-element-input">
+              <input type="text" placeholder="" name="name">
+            </div>
+          </div>
+
+          </div>
         </form>
       </div>
     </section>
@@ -376,4 +391,4 @@ class EventCategoryForm extends HTMLElement {
   }
 }
 
-customElements.define('event-categories-form-component', EventCategoryForm)
+customElements.define('faqs-form-component', FaqForm)

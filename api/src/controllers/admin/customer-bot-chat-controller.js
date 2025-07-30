@@ -1,11 +1,11 @@
 // Se puede sustituir 'User' por 'sequelizeModel' y así es más genérico pero no tan bonito para la lectura
 const sequelizeDb = require('../../models/sequelize')
-const Customer = sequelizeDb.Customer
+const CustomerBotChat = sequelizeDb.CustomerBotChat
 const Op = sequelizeDb.Sequelize.Op
 
 exports.create = async (req, res, next) => {
   try {
-    const data = await Customer.create(req.body)
+    const data = await CustomerBotChat.create(req.body)
     res.status(200).send(data)
   } catch (err) {
     if (err.name === 'SequelizeValidationError') {
@@ -32,9 +32,9 @@ exports.findAll = async (req, res, next) => {
       ? { [Op.and]: [whereStatement] }
       : {}
 
-    const result = await Customer.findAndCountAll({
+    const result = await CustomerBotChat.findAndCountAll({
       where: condition,
-      attributes: ['id', 'name', 'email', 'birthDate', 'createdAt', 'updatedAt'],
+      attributes: ['id', 'customerBotId', 'emisor', 'message', 'createdAt', 'updatedAt'],
       limit, // Es lo mismo que escribir limit: limit
       offset,
       order: [['createdAt', 'DESC']]
@@ -56,7 +56,7 @@ exports.findAll = async (req, res, next) => {
 exports.findOne = async (req, res, next) => {
   try {
     const id = req.params.id
-    const data = await Customer.findByPk(id)
+    const data = await CustomerBotChat.findByPk(id)
 
     if (!data) {
       const err = new Error()
@@ -74,7 +74,7 @@ exports.findOne = async (req, res, next) => {
 exports.update = async (req, res, next) => {
   try {
     const id = req.params.id
-    const [numberRowsAffected] = await Customer.update(req.body, { where: { id } })
+    const [numberRowsAffected] = await CustomerBotChat.update(req.body, { where: { id } })
 
     if (numberRowsAffected !== 1) {
       const err = new Error()
@@ -98,7 +98,7 @@ exports.update = async (req, res, next) => {
 exports.delete = async (req, res, next) => {
   try {
     const id = req.params.id
-    const numberRowsAffected = await Customer.destroy({ where: { id } })
+    const numberRowsAffected = await CustomerBotChat.destroy({ where: { id } })
 
     if (numberRowsAffected !== 1) {
       const err = new Error()

@@ -1,25 +1,47 @@
 module.exports = function (sequelize, DataTypes) {
-  const Model = sequelize.define('Customer',
-    {
+  const Model = sequelize.define('EventPrice',
+    { // definicion de los campos del modelo
       id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
         allowNull: false
       },
-      name: {
-        type: DataTypes.STRING,
-        allowNull: false
+      eventId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: 'Por favor, rellena el campo "eventId".'
+          },
+          notEmpty: {
+            msg: 'Por favor, rellena el campo "eventId".'
+          }
+        }
       },
-      email: {
+      description: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true
+        validate: {
+          notNull: {
+            msg: 'Por favor, rellena el campo "description".'
+          },
+          notEmpty: {
+            msg: 'Por favor, rellena el campo "description".'
+          }
+        }
       },
-
-      birthDate: {
-        type: DataTypes.DATE,
-        allowNull: false
+      price: {
+        type: DataTypes.DECIMAL,
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: 'Por favor, rellena el campo "price".'
+          },
+          notEmpty: {
+            msg: 'Por favor, rellena el campo "price".'
+          }
+        }
       },
       createdAt: {
         type: DataTypes.DATE,
@@ -37,11 +59,11 @@ module.exports = function (sequelize, DataTypes) {
             : null
         }
       }
-    }, {
+    }, { // opciones del modelo
       sequelize,
-      tableName: 'customers',
+      tableName: 'event_prices',
       timestamps: true,
-      paranoid: true,
+      paranoid: true, // no borres datos
       indexes: [
         {
           name: 'PRIMARY',

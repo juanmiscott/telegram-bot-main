@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-  const Model = sequelize.define('Customer',
+  const Model = sequelize.define('EmailError',
     {
       id: {
         type: DataTypes.INTEGER,
@@ -7,18 +7,21 @@ module.exports = function (sequelize, DataTypes) {
         primaryKey: true,
         allowNull: false
       },
-      name: {
+      userType: {
         type: DataTypes.STRING,
         allowNull: false
       },
-      email: {
-        type: DataTypes.STRING,
+      userId: {
+        type: DataTypes.INTEGER,
         allowNull: false,
         unique: true
       },
-
-      birthDate: {
-        type: DataTypes.DATE,
+      emailTemplate: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      error: {
+        type: DataTypes.TEXT,
         allowNull: false
       },
       createdAt: {
@@ -39,7 +42,7 @@ module.exports = function (sequelize, DataTypes) {
       }
     }, {
       sequelize,
-      tableName: 'customers',
+      tableName: 'email_errors',
       timestamps: true,
       paranoid: true,
       indexes: [

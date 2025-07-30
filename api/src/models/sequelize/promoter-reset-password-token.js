@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-  const Model = sequelize.define('Customer',
+  const Model = sequelize.define('PromoterResetPasswordToken',
     {
       id: {
         type: DataTypes.INTEGER,
@@ -7,18 +7,21 @@ module.exports = function (sequelize, DataTypes) {
         primaryKey: true,
         allowNull: false
       },
-      name: {
+      promoterId: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+      },
+      token: {
         type: DataTypes.STRING,
         allowNull: false
       },
-      email: {
-        type: DataTypes.STRING,
+      expirationDate: {
+        type: DataTypes.DATE,
         allowNull: false,
         unique: true
       },
-
-      birthDate: {
-        type: DataTypes.DATE,
+      used: {
+        type: DataTypes.BOOLEAN,
         allowNull: false
       },
       createdAt: {
@@ -39,7 +42,7 @@ module.exports = function (sequelize, DataTypes) {
       }
     }, {
       sequelize,
-      tableName: 'customers',
+      tableName: 'promoter_reset_password_tokens',
       timestamps: true,
       paranoid: true,
       indexes: [

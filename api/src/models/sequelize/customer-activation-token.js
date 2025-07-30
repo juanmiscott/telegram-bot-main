@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-  const Model = sequelize.define('Customer',
+  const Model = sequelize.define('CustomerActivationToken',
     {
       id: {
         type: DataTypes.INTEGER,
@@ -7,18 +7,22 @@ module.exports = function (sequelize, DataTypes) {
         primaryKey: true,
         allowNull: false
       },
-      name: {
-        type: DataTypes.STRING,
+      customerId: {
+        type: DataTypes.INTEGER,
         allowNull: false
       },
-      email: {
+      token: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true
       },
 
-      birthDate: {
+      expirationDate: {
         type: DataTypes.DATE,
+        allowNull: false
+      },
+      used: {
+        type: DataTypes.BOOLEAN,
         allowNull: false
       },
       createdAt: {
@@ -39,7 +43,7 @@ module.exports = function (sequelize, DataTypes) {
       }
     }, {
       sequelize,
-      tableName: 'customers',
+      tableName: 'customer_activation_tokens',
       timestamps: true,
       paranoid: true,
       indexes: [

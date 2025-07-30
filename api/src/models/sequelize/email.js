@@ -1,25 +1,35 @@
 module.exports = function (sequelize, DataTypes) {
-  const Model = sequelize.define('Customer',
-    {
+  const Model = sequelize.define('Email',
+    { // definicion de los campos del modelo
       id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
         allowNull: false
       },
-      name: {
-        type: DataTypes.STRING,
-        allowNull: false
-      },
-      email: {
+      subject: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true
+        validate: {
+          notNull: {
+            msg: 'Por favor, rellena el campo "subject".'
+          },
+          notEmpty: {
+            msg: 'Por favor, rellena el campo "subject".'
+          }
+        }
       },
-
-      birthDate: {
-        type: DataTypes.DATE,
-        allowNull: false
+      path: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: 'Por favor, rellena el campo "path".'
+          },
+          notEmpty: {
+            msg: 'Por favor, rellena el campo "path".'
+          }
+        }
       },
       createdAt: {
         type: DataTypes.DATE,
@@ -37,11 +47,11 @@ module.exports = function (sequelize, DataTypes) {
             : null
         }
       }
-    }, {
+    }, { // opciones del modelo
       sequelize,
-      tableName: 'customers',
+      tableName: 'emails',
       timestamps: true,
-      paranoid: true,
+      paranoid: true, // no borres datos
       indexes: [
         {
           name: 'PRIMARY',

@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-  const Model = sequelize.define('Customer',
+  const Model = sequelize.define('CustomerResetPasswordToken',
     {
       id: {
         type: DataTypes.INTEGER,
@@ -39,7 +39,7 @@ module.exports = function (sequelize, DataTypes) {
       }
     }, {
       sequelize,
-      tableName: 'customers',
+      tableName: 'customer_reset-password_tokens',
       timestamps: true,
       paranoid: true,
       indexes: [

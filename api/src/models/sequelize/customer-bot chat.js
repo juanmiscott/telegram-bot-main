@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-  const Model = sequelize.define('Customer',
+  const Model = sequelize.define('CustomerBotChat',
     {
       id: {
         type: DataTypes.INTEGER,
@@ -7,19 +7,19 @@ module.exports = function (sequelize, DataTypes) {
         primaryKey: true,
         allowNull: false
       },
-      name: {
-        type: DataTypes.STRING,
+      customerBotId: {
+        type: DataTypes.INTEGER,
         allowNull: false
       },
-      email: {
+      emisor: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true
       },
-
-      birthDate: {
-        type: DataTypes.DATE,
-        allowNull: false
+      message: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+        unique: true
       },
       createdAt: {
         type: DataTypes.DATE,
@@ -39,7 +39,7 @@ module.exports = function (sequelize, DataTypes) {
       }
     }, {
       sequelize,
-      tableName: 'customers',
+      tableName: 'customer_bot_chats',
       timestamps: true,
       paranoid: true,
       indexes: [

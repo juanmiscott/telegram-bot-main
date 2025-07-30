@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-  const Model = sequelize.define('Customer',
+  const Model = sequelize.define('CustomerCredential',
     {
       id: {
         type: DataTypes.INTEGER,
@@ -7,7 +7,7 @@ module.exports = function (sequelize, DataTypes) {
         primaryKey: true,
         allowNull: false
       },
-      name: {
+      customerId: {
         type: DataTypes.STRING,
         allowNull: false
       },
@@ -16,8 +16,13 @@ module.exports = function (sequelize, DataTypes) {
         allowNull: false,
         unique: true
       },
+      password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true
+      },
 
-      birthDate: {
+      lastPasswordChange: {
         type: DataTypes.DATE,
         allowNull: false
       },
@@ -39,7 +44,7 @@ module.exports = function (sequelize, DataTypes) {
       }
     }, {
       sequelize,
-      tableName: 'customers',
+      tableName: 'customer_credentials',
       timestamps: true,
       paranoid: true,
       indexes: [
