@@ -6,6 +6,7 @@ const Op = sequelizeDb.Sequelize.Op
 exports.create = async (req, res, next) => {
   try {
     const data = await User.create(req.body)
+    req.redisClient.publish('new-user', JSON.stringify(data))
     res.status(200).send(data)
   } catch (err) {
     if (err.name === 'SequelizeValidationError') {

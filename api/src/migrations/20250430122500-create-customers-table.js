@@ -19,11 +19,6 @@ module.exports = {
         allowNull: false,
         unique: true
       },
-
-      birthDate: {
-        type: Sequelize.DATE,
-        allowNull: false
-      },
       createdAt: {
         type: Sequelize.DATE,
         allowNull: false

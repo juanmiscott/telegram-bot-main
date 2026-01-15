@@ -16,11 +16,6 @@ module.exports = function (sequelize, DataTypes) {
         allowNull: false,
         unique: true
       },
-
-      birthDate: {
-        type: DataTypes.DATE,
-        allowNull: false
-      },
       createdAt: {
         type: DataTypes.DATE,
         get () {
@@ -38,21 +33,21 @@ module.exports = function (sequelize, DataTypes) {
         }
       }
     }, {
-      sequelize,
-      tableName: 'customers',
-      timestamps: true,
-      paranoid: true,
-      indexes: [
-        {
-          name: 'PRIMARY',
-          unique: true,
-          using: 'BTREE',
-          fields: [
-            { name: 'id' }
-          ]
-        }
-      ]
-    }
+    sequelize,
+    tableName: 'customers',
+    timestamps: true,
+    paranoid: true,
+    indexes: [
+      {
+        name: 'PRIMARY',
+        unique: true,
+        using: 'BTREE',
+        fields: [
+          { name: 'id' }
+        ]
+      }
+    ]
+  }
   )
 
   Model.associate = function (models) {

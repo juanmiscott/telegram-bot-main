@@ -10,5 +10,7 @@ router.use('/admin/promoters', require('./admin/promoters'))
 router.use('/admin/spots', require('./admin/spots'))
 router.use('/admin/images', require('./admin/images'))
 router.use('/admin/languages', require('./admin/languages'))
+router.use('/customer/customers', require('./customer/customers'))
+router.use('/auth', require('./auth/auth-activates'))
 
 module.exports = router

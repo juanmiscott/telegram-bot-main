@@ -3,11 +3,13 @@ class SubscriptionForm extends HTMLElement {
     super()
     this.shadow = this.attachShadow({ mode: 'open' })
     this.data = {}
+    this.endpoint = '/api/customer/customers'
   }
 
   async connectedCallback () {
-    await this.loadData()
-    await this.render()
+    this.loadData()
+    this.render()
+    this.bindEvents()
   }
 
   loadData () {
@@ -17,19 +19,88 @@ class SubscriptionForm extends HTMLElement {
       explanationFeatured: 'Subscríbete perro',
       infoAreaTitle: 'Empieza a usarlo ya',
       infoAreaSubtitle: 'Te enviaremos un correo electrónico con las instrucciones para que puedas empezar a estafar a gente.',
-      formElementButton: 'Pa lante',
+      formElementButton: 'Enviar'
     }
+  }
+
+  validateEmail (email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    return emailRegex.test(email)
+  }
+
+  bindEvents () {
+    const form = this.shadow.querySelector('#subscriptionForm')
+
+    // Evita doble binding si el componente se re-renderiza
+    if (this._boundSubmit) return
+    this._boundSubmit = true
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault()
+
+      const nameInput = this.shadow.querySelector('input[name="name"]')
+      const emailInput = this.shadow.querySelector('input[name="email"]')
+      const button = this.shadow.querySelector('button[type="submit"]')
+
+      const payload = {
+        name: (nameInput.value || '').trim(),
+        email: (emailInput.value || '').trim()
+      }
+
+      // Validación
+      if (!payload.name) {
+        alert('El nombre es requerido')
+        nameInput.focus()
+        return
+      }
+
+      if (!payload.email) {
+        alert('El email es requerido')
+        emailInput.focus()
+        return
+      }
+
+      if (!this.validateEmail(payload.email)) {
+        alert('Ingrese un email válido')
+        emailInput.focus()
+        return
+      }
+
+      // UI loading
+      const oldText = button.textContent
+      button.disabled = true
+      button.textContent = 'Enviando...'
+
+      try {
+        const response = await fetch(this.endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        })
+
+        // Intenta leer json si existe
+        const data = await response.json().catch(() => ({}))
+
+        if (!response.ok) {
+          console.error('Error API:', data)
+          return
+        }
+
+        form.reset()
+      } catch (err) {
+        console.error('Fetch falló:', err)
+      } finally {
+        button.disabled = false
+        button.textContent = oldText
+      }
+    })
   }
 
   render () {
     this.shadow.innerHTML =
     /* html */`
     <style>
-
-
-      *{
-        box-sizing: border-box;
-      }
+      *{ box-sizing: border-box; }
 
       button{
         background-color: transparent;
@@ -116,7 +187,7 @@ class SubscriptionForm extends HTMLElement {
       }
 
       .explanation-featured{
-        background-color: rgba(0, 0, 0, 0.5); 
+        background-color: rgba(0, 0, 0, 0.5);
         backdrop-filter: blur(10px);
         padding: 1rem;
         width: max-content;
@@ -179,22 +250,9 @@ class SubscriptionForm extends HTMLElement {
       }
 
       @keyframes top-bottom {
-        0%, 100%, 20%, 50%, 80% {
-          -webkit-transform: translateY(0);
-          -ms-transform: translateY(0);
-          transform: translateY(0);
-        }
-
-        40% {
-          -webkit-transform: translateY(-8px);
-          -ms-transform: translateY(-8px);
-          transform: translateY(-8px);
-        }
-        60% {
-          -webkit-transform: translateY(-4px);
-          -ms-transform: translateY(-4px);
-          transform: translateY(-4px);
-        }
+        0%, 100%, 20%, 50%, 80% { transform: translateY(0); }
+        40% { transform: translateY(-8px); }
+        60% { transform: translateY(-4px); }
       }
 
       .form form{
@@ -237,50 +295,58 @@ class SubscriptionForm extends HTMLElement {
       .form-element-button button:hover{
         background-color: hsl(200, 77%, 42%);
       }
-    
+
+      .form-element-button button:disabled{
+        opacity: 0.7;
+        cursor: not-allowed;
+      }
     </style>
 
     <section class="subscription-form">
-    <div class="explanation">
-      <div class="explanation-title">
-        <h3>${this.data.explanationTitle}</h3>
-      </div>
-      <div class="explanation-info">
-        <p>${this.data.explanationInfo}</p>
-      </div>
-      <div class="explanation-featured">
-        <span>${this.data.explanationFeatured}</span>
-      </div>
-    </div>
-    <div class="form-container">
-      <div class="info-area">
-        <div class="info-area-text">
-          <div class="info-area-title">
-            <h4>${this.data.infoAreaTitle}</h4>
-          </div>
-          <div class="info-area-subtitle">
-            <span>${this.data.infoAreaSubtitle}</span>
-          </div>
+      <div class="explanation">
+        <div class="explanation-title">
+          <h3>${this.data.explanationTitle}</h3>
         </div>
-        <div class="info-area-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>hand-pointing-down</title><path d="M9.9,21V11L6.7,12.69L6.5,12.72C6.19,12.72 5.93,12.6 5.74,12.4L5,11.63L9.9,7.43C10.16,7.16 10.5,7 10.9,7H17.4C18.17,7 18.9,7.7 18.9,8.5V12.86C18.9,13.47 18.55,14 18.05,14.2L13.11,16.4L11.9,16.53V21A1,1 0 0,1 10.9,22A1,1 0 0,1 9.9,21M18.9,5H10.9V2H18.9V5Z" /></svg>
+        <div class="explanation-info">
+          <p>${this.data.explanationInfo}</p>
+        </div>
+        <div class="explanation-featured">
+          <span>${this.data.explanationFeatured}</span>
         </div>
       </div>
-      <div class="form">
-        <form>
-          <div class="form-element">
-            <div class="form-element-input">
-              <input type="text" placeholder="Dirección de correo">
+
+      <div class="form-container">
+        <div class="info-area">
+          <div class="info-area-text">
+            <div class="info-area-title">
+              <h4>${this.data.infoAreaTitle}</h4>
+            </div>
+            <div class="info-area-subtitle">
+              <span>${this.data.infoAreaSubtitle}</span>
             </div>
           </div>
-          <div class="form-element-button">
-            <button>${this.data.formElementButton}</button>
+          <div class="info-area-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>hand-pointing-down</title><path d="M9.9,21V11L6.7,12.69L6.5,12.72C6.19,12.72 5.93,12.6 5.74,12.4L5,11.63L9.9,7.43C10.16,7.16 10.5,7 10.9,7H17.4C18.17,7 18.9,7.7 18.9,8.5V12.86C18.9,13.47 18.55,14 18.05,14.2L13.11,16.4L11.9,16.53V21A1,1 0 0,1 10.9,22A1,1 0 0,1 9.9,21M18.9,5H10.9V2H18.9V5Z" /></svg>
           </div>
-        </form>
+        </div>
+
+        <div class="form">
+          <form id="subscriptionForm">
+            <div class="form-element">
+              <div class="form-element-input">
+                <input type="text" placeholder="Nombre" name="name" required>
+                <br></br>
+                <input type="email" placeholder="Dirección de correo" name="email" required>
+              </div>
+            </div>
+
+            <div class="form-element-button">
+              <button type="submit">${this.data.formElementButton}</button>
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
-  </section>
-    
+    </section>
     `
   }
 }

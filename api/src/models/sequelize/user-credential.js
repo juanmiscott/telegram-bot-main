@@ -69,21 +69,21 @@ module.exports = function (sequelize, DataTypes) {
         }
       }
     }, { // opciones del modelo
-      sequelize,
-      tableName: 'user-credentials',
-      timestamps: true,
-      paranoid: true, // no borres datos
-      indexes: [
-        {
-          name: 'PRIMARY',
-          unique: true,
-          using: 'BTREE',
-          fields: [
-            { name: 'id' }
-          ]
-        }
-      ]
-    }
+    sequelize,
+    tableName: 'user_credentials',
+    timestamps: true,
+    paranoid: true, // no borres datos
+    indexes: [
+      {
+        name: 'PRIMARY',
+        unique: true,
+        using: 'BTREE',
+        fields: [
+          { name: 'id' }
+        ]
+      }
+    ]
+  }
   )
 
   Model.associate = function (models) {
